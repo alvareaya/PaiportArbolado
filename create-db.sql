@@ -7,4 +7,5 @@ CREATE USER 'user_bd'@'localhost' IDENTIFIED BY 'passwdbd';
 
 CREATE DATABASE IF NOT EXISTS PaiportArbolado;
 GRANT ALL PRIVILEGES ON PaiportArbolado.* TO 'user_bd'@'127.0.0.1';
+GRANT ALL PRIVILEGES ON PaiportArbolado.* TO 'user_bd'@'localhost';
 FLUSH PRIVILEGES;
