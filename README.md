@@ -265,3 +265,49 @@ echo "<option value=''>No se pudieron cargar los estados</option>";
 
 </select><br>
 ```
+
+
+### 7. El buscador de index.php no busca los arboles
+El buscador no busca arboles ya que en esta parte la funcion se llama buscarArboles() pero en ./js/script.js la funcion se llama searchTrees() solo hay que cambiar el nombre de la funcion en scripts y ya funcionará el buscador.
+
+Antes
+```js
+function searchTrees() {
+
+const input = document.getElementById('buscar').value.toLowerCase();
+
+const rows = document.querySelectorAll('table tr\:not(\:first-child)');
+
+  
+
+rows.forEach(row => {
+
+const text = row.textContent.toLowerCase();
+
+row.style.display = text.includes(input) ? '' : 'none';
+
+});
+
+}
+```
+
+Despues
+```js
+function buscarArboles() {
+
+const input = document.getElementById('buscar').value.toLowerCase();
+
+const rows = document.querySelectorAll('table tr\:not(\:first-child)');
+
+  
+
+rows.forEach(row => {
+
+const text = row.textContent.toLowerCase();
+
+row.style.display = text.includes(input) ? '' : 'none';
+
+});
+
+}
+```
