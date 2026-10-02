@@ -311,3 +311,10 @@ row.style.display = text.includes(input) ? '' : 'none';
 
 }
 ```
+
+### Añadir fotografias
+
+Primero hay que añadir un campo mas a la tabla arboles:
+```sql
+ALTER TABLE arboles ADD imagen varchar(255);
+```

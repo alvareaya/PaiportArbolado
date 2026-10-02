@@ -33,6 +33,7 @@ if (!$result) {
             <th>Ubicación</th>
             <th>Fecha Plantación</th>
             <th>Estado</th>
+            <th>Imagen</th>
             <th>Registro Usuario</th>
             <th>Acciones</th>
         </tr>
@@ -43,6 +44,7 @@ if (!$result) {
             <td><?= htmlspecialchars($row['ubicacion']) ?></td>
             <td><?= $row['fecha_plantacion'] ?></td>
             <td><?= $row['estado'] ?></td>
+            <td><?= !empty($row['imagen']) ? $row['imagen'] : 'Sin imagen' ?></td>
             <td><?= $row['usuario_registro'] ?></td>
             <td>
             <a href="editar.php?id=<?= $row['id'] ?>">Editar</a>
