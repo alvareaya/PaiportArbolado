@@ -1,5 +1,3 @@
-# PaiportArbolado
-
 
 # Guía de Instalación y Configuración del Servidor
 
@@ -67,7 +65,7 @@ Introduce el fichero `.sql` para poder crear el usuario, la base de datos y asig
 sudo mariadb < create-db.sql
 ```
 
-IMPORTANTE le tienes que añadir la siguiente linea antes del FLUSH PRIVILEGES.
+IMPORTANTE hay que añadir la siguiente linea antes del FLUSH PRIVILEGES para poder loguearse como localhost también.
 
 ```SQL
 GRANT ALL PRIVILEGES ON PaiportArbolado.* TO 'user_bd'@'localhost';
@@ -110,4 +108,44 @@ mariadb -u user_bd -p -e "SHOW TABLES IN PaiportArbolado;"
 +---------------------------+  
 | arboles                   |  
 +---------------------------+
+```
+
+
+### 3. Solucionar error 500 al abrir index.php en la carpeta /var/www/html
+
+Dar propiedades al usuario y al servidor web.
+```bash
+sudo chown -R $USER:www-data /var/www/html
+```
+
+Asignar permiso de escritura y lectura para poder guardar cambios.
+```bash
+sudo chmod -R 775 /var/www/html
+```
+
+Ahora lo que hay que hacer es movero copiar los ficheros que estan en PaiportArbolado con el siguiente comando
+```bash
+cp -r /var/www/PaiportArbolado/* /var/www/html/
+```
+ y hora al cargar tiene que aparecer la pagina web
+ http://localhost:8080/index.php
+### Añadir el fichero actions.log
+En el directorio PaiportaArbolada hay que crear una carpeta llamada logs y dentro de ella crear el fichero actions.log y que la estructura se vea tal que así.
+
+```bash
+.  
+├── README.md  
+├── config.php  
+├── crear.php  
+├── create-db.sql  
+├── css  
+│   └── style.css  
+├── editar.php  
+├── eliminar.php  
+├── index.php  
+├── js  
+│   └── script.js  
+├── logs  
+│   └── actions.log  
+└── populate-sql.sq
 ```
