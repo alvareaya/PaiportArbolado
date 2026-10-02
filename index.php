@@ -1,9 +1,18 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+
 require_once 'config.php';
 
 // Consultar árboles
 $sql = "SELECT * FROM arboles";
 $result = $conn->query($sql);
+
+if (!$result) {
+    die("Error a la base de dades: " . $conn->error);
+}
 ?>
 
 <!DOCTYPE html>
