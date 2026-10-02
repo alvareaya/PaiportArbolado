@@ -312,9 +312,96 @@ row.style.display = text.includes(input) ? '' : 'none';
 }
 ```
 
-### Añadir fotografias
+
+### 8. Añadir fotografias
 
 Primero hay que añadir un campo mas a la tabla arboles:
 ```sql
 ALTER TABLE arboles ADD imagen varchar(255);
 ```
+
+8.1 Añadir campo nuevo en  crear.php para poder subir imagenes.
+
+Añadir campo input en su su respectivo lugar:
+```php
+<label>Añadir imagen:</label>
+<input type="file" name="imagen" required><br>
+```
+
+8.2 Modificar crear.php
+Hay que añadir este comando para poder añadir la imagen
+```php
+$ruta_db = "";
+
+  
+
+if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] === UPLOAD_ERR_OK) {
+
+$dir_destino = "./arboles_paiporta/uploads/";
+
+if (!is_dir($dir_destino)) {
+
+mkdir($dir_destino, 0755, true);
+
+}
+
+  
+
+$nombre_archivo = time() . "_" . basename($_FILES['imagen']['name']);
+
+$ruta_destino = $dir_destino . $nombre_archivo;
+
+  
+
+if (move_uploaded_file($_FILES['imagen']['tmp_name'], $ruta_destino)) {
+
+  
+
+$ruta_db = $conn->real_escape_string($ruta_destino);
+
+} else {
+
+echo "Error al mover el archivo a la carpeta de destino.";
+
+exit();
+
+}
+
+} else {
+
+echo "Error en la subida del archivo.";
+
+exit();
+
+}
+
+$sql = "INSERT INTO arboles (especie, ubicacion, fecha_plantacion, estado, imagen, usuario_registro)
+
+VALUES ('$especie', '$ubicacion', '$fecha', '$estado', '$ruta_db','$usuario')";
+```
+
+8.3 Modificar parte en index.php para mostrar imagenes
+
+Añadir o modificar el campo imagen
+Antes
+```php
+<td><?= !empty($row['imagen']) ? $row['imagen'] : 'Sin imagen' ?></td>
+```
+
+Despues
+```php
+<td>
+
+<?php if (!empty($row['imagen']) && file_exists($row['imagen'])): ?>
+
+<img src="<?= htmlspecialchars($row['imagen']) ?>" alt="Miniatura de <?= htmlspecialchars($row['especie']) ?>" style="width: 80px; height: auto; border-radius: 4px;">
+
+<?php else: ?>
+
+<span>Sin imagen</span>
+
+<?php endif; ?>
+
+</td>
+```
+

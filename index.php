@@ -44,8 +44,13 @@ if (!$result) {
             <td><?= htmlspecialchars($row['ubicacion']) ?></td>
             <td><?= $row['fecha_plantacion'] ?></td>
             <td><?= $row['estado'] ?></td>
-            <td><?= !empty($row['imagen']) ? $row['imagen'] : 'Sin imagen' ?></td>
-            <td><?= $row['usuario_registro'] ?></td>
+            <td>
+                <?php if (!empty($row['imagen']) && file_exists($row['imagen'])): ?>
+                    <img src="<?= htmlspecialchars($row['imagen']) ?>" alt="Miniatura de <?= htmlspecialchars($row['especie']) ?>" style="width: 80px; height: auto; border-radius: 4px;">
+                <?php else: ?>
+                    <span>Sin imagen</span>
+                <?php endif; ?>
+            </td>            <td><?= $row['usuario_registro'] ?></td>
             <td>
             <a href="editar.php?id=<?= $row['id'] ?>">Editar</a>
             <a href="eliminar.php?id=<?= $row['id'] ?>" onclick="return confirm('¿Eliminar este árbol?')">Eliminar</a>
