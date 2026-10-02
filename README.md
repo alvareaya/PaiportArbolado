@@ -205,3 +205,63 @@ No aparece el campo usuario_registro lo añadi para que aparezca el campo de la 
 
 </table>
 ```
+
+### 6. Fichero crear.php
+Hay que añadir el campo de estado que es un enum.
+
+6.1 Obtener los estados
+
+```php
+$estados_enum = [];
+
+$result = $conn->query("SHOW COLUMNS FROM arboles LIKE 'estado'");
+
+  
+
+if ($result && $row = $result->fetch_assoc()) {
+
+$type = $row['Type'];
+
+if (preg_match("/^enum\((.*)\)$/", $type, $matches)) {
+
+$estados_enum = explode(",", str_replace("'", "", $matches[1]));
+
+}
+
+}
+```
+
+Luego se añade la variable para poder hacer el POST
+
+```php
+$estado = $conn->real_escape_string($_POST['estado']);
+```
+
+Y por ultimo se añade el campo de los estados en la parte de html.
+```html
+<label>Estado:</label>
+
+<select name="estado" required>
+
+<option value="">-- Selecciona un estado --</option>
+
+<?php
+
+if (!empty($estados_enum)) {
+
+foreach ($estados_enum as $opcion) {
+
+echo "<option value='" . $opcion . "'>" . ucfirst($opcion) . "</option>";
+
+}
+
+} else {
+
+echo "<option value=''>No se pudieron cargar los estados</option>";
+
+}
+
+?>
+
+</select><br>
+```

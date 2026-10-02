@@ -1,14 +1,26 @@
 <?php
 require_once 'config.php';
 
+$estados_enum = [];
+$result = $conn->query("SHOW COLUMNS FROM arboles LIKE 'estado'");
+
+if ($result && $row = $result->fetch_assoc()) {
+    $type = $row['Type'];
+    
+    if (preg_match("/^enum\((.*)\)$/", $type, $matches)) {
+        $estados_enum = explode(",", str_replace("'", "", $matches[1]));
+    }
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $especie = $conn->real_escape_string($_POST['especie']);
     $ubicacion = $conn->real_escape_string($_POST['ubicacion']);
     $fecha = $_POST['fecha_plantacion'];
-    $usuario = $conn->real_escape_string($_POST['usuario']);
+	$estado = $conn->real_escape_string($_POST['estado']);
+    $usuario = $conn->real_escape_string($_POST['usuario']); 
 
-    $sql = "INSERT INTO arboles (especie, ubicacion, fecha_plantacion, usuario_registro)
-    VALUES ('$especie', '$ubicacion', '$fecha', '$usuario')";
+    $sql = "INSERT INTO arboles (especie, ubicacion, fecha_plantacion, estado, usuario_registro)
+    VALUES ('$especie', '$ubicacion', '$fecha', '$estado','$usuario')";
 
     if ($conn->query($sql)) {
         registerAction("Tree added $especie in $ubicacion", $usuario);
@@ -38,6 +50,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 		<label>Fecha de Plantación:</label>
 		<input type="date" name="fecha_plantacion" required><br>
+
+		<label>Estado:</label>
+		<select name="estado" required>
+			<option value="">-- Selecciona un estado --</option>
+			<?php
+			if (!empty($estados_enum)) {
+				foreach ($estados_enum as $opcion) {
+					echo "<option value='" . $opcion . "'>" . ucfirst($opcion) . "</option>";
+				}
+			} else {
+				echo "<option value=''>No se pudieron cargar los estados</option>";
+			}
+			?>
+		</select><br>
 
 		<label>Usuario:</label>
 		<input type="text" name="usuario" required><br>

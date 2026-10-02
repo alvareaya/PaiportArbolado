@@ -6,7 +6,6 @@ error_reporting(E_ALL);
 
 require_once 'config.php';
 
-// Consultar árboles
 $sql = "SELECT * FROM arboles";
 $result = $conn->query($sql);
 
