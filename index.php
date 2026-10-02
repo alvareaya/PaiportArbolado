@@ -34,6 +34,7 @@ if (!$result) {
             <th>Ubicación</th>
             <th>Fecha Plantación</th>
             <th>Estado</th>
+            <th>Registro Usuario</th>
             <th>Acciones</th>
         </tr>
             <?php while ($row = $result->fetch_assoc()): ?>
@@ -43,6 +44,7 @@ if (!$result) {
             <td><?= htmlspecialchars($row['ubicacion']) ?></td>
             <td><?= $row['fecha_plantacion'] ?></td>
             <td><?= $row['estado'] ?></td>
+            <td><?= $row['usuario_registro'] ?></td>
             <td>
             <a href="editar.php?id=<?= $row['id'] ?>">Editar</a>
             <a href="eliminar.php?id=<?= $row['id'] ?>" onclick="return confirm('¿Eliminar este árbol?')">Eliminar</a>

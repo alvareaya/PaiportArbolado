@@ -129,7 +129,8 @@ cp -r /var/www/PaiportArbolado/* /var/www/html/
 ```
  y hora al cargar tiene que aparecer la pagina web
  http://localhost:8080/index.php
-### Añadir el fichero actions.log
+ 
+### 4. Añadir el fichero actions.log
 En el directorio PaiportaArbolada hay que crear una carpeta llamada logs y dentro de ella crear el fichero actions.log y que la estructura se vea tal que así.
 
 ```bash
@@ -148,4 +149,59 @@ En el directorio PaiportaArbolada hay que crear una carpeta llamada logs y dentr
 ├── logs  
 │   └── actions.log  
 └── populate-sql.sq
+```
+
+### 5. Añadir campo usuario_registro en index.php
+No aparece el campo usuario_registro lo añadi para que aparezca el campo de la tabla y el valor.
+
+```html
+<table border="1">
+
+<tr>
+
+<th>ID</th>
+
+<th>Especie</th>
+
+<th>Ubicación</th>
+
+<th>Fecha Plantación</th>
+
+<th>Estado</th>
+
+<th>Registro Usuario</th>
+
+<th>Acciones</th>
+
+</tr>
+
+<?php while ($row = $result->fetch_assoc()): ?>
+
+<tr>
+
+<td><?= $row['id'] ?></td>
+
+<td><?= htmlspecialchars($row['especie']) ?></td>
+
+<td><?= htmlspecialchars($row['ubicacion']) ?></td>
+
+<td><?= $row['fecha_plantacion'] ?></td>
+
+<td><?= $row['estado'] ?></td>
+
+<td><?= $row['usuario_registro'] ?></td>
+
+<td>
+
+<a href="editar.php?id=<?= $row['id'] ?>">Editar</a>
+
+<a href="eliminar.php?id=<?= $row['id'] ?>" onclick="return confirm('¿Eliminar este árbol?')">Eliminar</a>
+
+</td>
+
+</tr>
+
+<?php endwhile; ?>
+
+</table>
 ```
