@@ -1,3 +1,13 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['usuario_id'])) {
+    header('Location: login.php');
+    exit;
+}
+
+
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -6,7 +16,15 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <h1>Gestión de Árboles de Paiporta</h1>
+    
+    <header style="display: flex; justify-content: space-between; align-items: center;">
+        <h1>Gestión de Árboles de Paiporta</h1>
+        <div>
+            <span>Bienvenido, <strong><?php echo htmlspecialchars($_SESSION['usuario_nombre']); ?></strong></span> | 
+            <a href="logout.php">Cerrar Sesión</a>
+        </div>
+    </header>
+
     <a href="crear.php">Añadir nuevo árbol</a>
     <input type="text" id="buscar" placeholder="Buscar por especie o ubicación..." onkeyup="buscarArboles()">
 
@@ -30,5 +48,3 @@
     <script src="js/arboles_endpoints.js"></script>
 </body>
 </html>
-
-<?php $conn->close(); ?>

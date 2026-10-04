@@ -47,10 +47,13 @@ if ($usuario && password_verify($contrasena_ingresada, $usuario['contrasena'])) 
             'nombre' => $usuario['nombre']
         ]
     ]);
+    exit; // <--- IMPRESCINDIBLE: Corta el script aquí
 } else {
     http_response_code(401);
     echo json_encode(['error' => 'El usuario o la contraseña son incorrectos.']);
+    exit; // <--- Buenas prácticas para cerrar el flujo limpiamente
 }
+
 
 $stmt->close();
 $conn->close();
