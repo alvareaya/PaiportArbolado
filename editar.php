@@ -47,6 +47,6 @@
     </form>
     <a href="index.php">Volver a la lista</a>
 
-    <script src="js/endpoints.js"></script>
+    <script src="js/arboles_endpoints.js"></script>
 </body>
 </html>

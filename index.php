@@ -27,7 +27,7 @@
         </tbody>
     </table>
 
-    <script src="js/endpoints.js"></script>
+    <script src="js/arboles_endpoints.js"></script>
 </body>
 </html>
 
