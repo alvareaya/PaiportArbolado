@@ -7,6 +7,11 @@ document.addEventListener("DOMContentLoaded", () => {
         cargarEstados();
         crearArbol();
     }
+
+    if (document.getElementById('form-editar')) {
+        cargarDatosEditar();
+        editarArbol();
+    }
 });
 
 //GET
@@ -75,6 +80,62 @@ function cargarEstados() {
         });
 }
 
+function cargarDatosEditar() {
+    const formulario = document.getElementById("form-editar");
+    if (!formulario) return;
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get('id');
+
+    if (!id) {
+        alert("ID de árbol no especificado.");
+        window.location.href = 'index.php';
+        return;
+    }
+
+    cargarEstados();
+
+    fetch(`api/editar_arboles.php?id=${id}`)
+        .then(res => {
+            if (!res.ok) {
+                return res.text().then(text => { throw new Error(text) });
+            }
+            return res.json();
+        })
+        .then(arbol => {
+            if (arbol.error) {
+                alert(arbol.error);
+                window.location.href = 'index.php';
+                return;
+            }
+
+            if(formulario.querySelector("[name='especie']")) formulario.querySelector("[name='especie']").value = arbol.especie || '';
+            if(formulario.querySelector("[name='ubicacion']")) formulario.querySelector("[name='ubicacion']").value = arbol.ubicacion || '';
+            if(formulario.querySelector("[name='fecha_plantacion']")) formulario.querySelector("[name='fecha_plantacion']").value = arbol.fecha_plantacion || '';
+            if(formulario.querySelector("[name='estado']")) formulario.querySelector("[name='estado']").value = arbol.estado || '';
+            if(formulario.querySelector("[name='usuario']")) formulario.querySelector("[name='usuario']").value = arbol.usuario_registro || '';
+
+            // Control dinámico de la miniatura de la imagen
+            const imgPreview = document.getElementById("vista-previa");
+            const txtSinImagen = document.getElementById("sin-imagen-texto");
+
+            if (imgPreview) {
+                if (arbol.imagen && arbol.imagen.trim() !== "") {
+                    imgPreview.src = arbol.imagen;
+                    imgPreview.style.display = "block";
+                    if (txtSinImagen) txtSinImagen.style.display = "none";
+                } else {
+                    imgPreview.style.display = "none";
+                    if (txtSinImagen) txtSinImagen.style.display = "block";
+                }
+            }
+        })
+        .catch(err => {
+            console.error("Error crítico al cargar los detalles del árbol:", err);
+            alert("No se pudieron cargar los datos del árbol.");
+        });
+}
+
 //POST
 function crearArbol() {
     const formulario = document.getElementById("form-crear");
@@ -101,6 +162,41 @@ function crearArbol() {
         .catch(error => {
             console.error("Error en la petición de guardado:", error);
             alert("Ocurrió un error en el servidor al intentar guardar.");
+        });
+    });
+}
+
+
+//PUT
+function editarArbol() {
+    const formulario = document.getElementById("form-editar");
+    if (!formulario) return;
+
+    formulario.addEventListener("submit", function(e) {
+        e.preventDefault();
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');
+
+        const formData = new FormData(this);
+        formData.append('id', id);
+
+        fetch('api/editar_arboles.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                alert(data.mensaje);
+                window.location.href = 'index.php';
+            } else {
+                alert("Error al guardar cambios: " + data.error);
+            }
+        })
+        .catch(err => {
+            console.error("Error en la petición de actualización:", err);
+            alert("Ocurrió un error en el servidor al guardar la edición.");
         });
     });
 }
