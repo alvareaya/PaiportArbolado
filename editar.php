@@ -60,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>PaiportArbolado : Editar Árbol</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
-        /* Estilo para que la imagen se vea a tamaño mediano */
+        
         .img-mediana {
             max-width: 300px;
             height: auto;

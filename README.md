@@ -405,3 +405,96 @@ Despues
 </td>
 ```
 
+8.4 Hacer que la imagen se muestre en editar.php
+
+Imagen actual
+```php
+$ruta_imagen_bd = $arbol['imagen']; 
+```
+Guarda en una variable la ruta de la imagen actual del árbol obtenida de la base de datos.
+
+Subida de la nueva imagen
+```php
+if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] === UPLOAD_ERR_OK) {
+    $carpeta_destino = './arboles_paiporta/uploads/';
+    $nombre_original = basename($_FILES['imagen']['name']);
+
+    $nombre_final = time() . "_" . str_replace(" ", "", $nombre_original);
+    $fichero_subido = $carpeta_destino . $nombre_final;
+
+    if (move_uploaded_file($_FILES['imagen']['tmp_name'], $fichero_subido)) {
+        $ruta_imagen_bd = $fichero_subido;
+    } else {
+        echo "Error al guardar la imagen en el servidor.";
+    }
+}
+```
+
+Comprueba si se ha subido un archivo mediante el formulario, le genera un nombre único usando `time()`, elimina los espacios en blanco, lo mueve a la carpeta de destino (`./arboles_paiporta/uploads/`) y actualiza la variable `$ruta_imagen_bd`.
+
+
+Hacer que la imagen sea de tamaño mediano:
+```css
+.img-mediana {
+    max-width: 300px;
+    height: auto;
+    display: block;
+    margin: 10px 0 20px 0;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+```
+
+
+Atributo obligatorio para subir archivos en el formulario:
+```html
+<form method="POST" enctype="multipart/form-data">
+```
+El atributo `enctype="multipart/form-data"` es indispensable para que el formulario pueda enviar archivos (como imágenes) al servidor.
+
+Mapeo y visualización de la imagen actual:
+```php
+<label>Imagen del Árbol:</label><br>
+
+<?php if (!empty($arbol['imagen'])): ?>
+    <img id="vista-previa" src="<?= htmlspecialchars($arbol['imagen']) ?>" alt="Imagen del árbol" class="img-mediana">
+<?php else: ?>
+    <img id="vista-previa" src="" alt="Vista previa" class="img-mediana" style="display: none;">
+    <p id="sin-imagen-texto" style="color: gray; font-style: italic;">No hay imagen disponible para este árbol.</p>
+<?php endif; ?>
+
+```
+Si el árbol ya tiene una ruta de imagen asignada en la base de datos, la muestra. Si no, oculta la etiqueta de imagen y muestra el texto _"No hay imagen disponible para este árbol".
+
+Campo de selección de archivo:
+```html
+<label>Cambiar Imagen:</label>
+<input type="file" id="input-imagen" name="imagen" accept="image/*"><br><br>
+```
+El botón de tipo `file` para que el usuario seleccione un archivo desde su dispositivo. El atributo `accept="image/*"` limita la selección solo a archivos de imagen.
+
+Previsualización en tiempo real:
+```js
+document.getElementById('input-imagen').addEventListener('change', function(event) {
+    const archivo = event.target.files[0];
+
+    if (archivo) {
+        const lector = new FileReader();
+
+        lector.onload = function(e) {
+            const imgPreview = document.getElementById('vista-previa');
+            const txtNoImage = document.getElementById('sin-imagen-texto');
+
+            imgPreview.src = e.target.result;
+            imgPreview.style.display = 'block';
+
+            if (txtNoImage) {
+                txtNoImage.style.display = 'none';
+            }
+        }
+
+        lector.readAsDataURL(archivo);
+    }
+});
+```
+Escucha cuando el usuario selecciona un nuevo archivo local, lo lee instantáneamente sin recargar la página utilizando `FileReader` y actualiza dinámicamente la etiqueta de la imagen (`#vista-previa`) para mostrar la nueva foto antes de enviar el formulario.
