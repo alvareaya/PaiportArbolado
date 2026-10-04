@@ -498,3 +498,8 @@ document.getElementById('input-imagen').addEventListener('change', function(even
 });
 ```
 Escucha cuando el usuario selecciona un nuevo archivo local, lo lee instantáneamente sin recargar la página utilizando `FileReader` y actualiza dinámicamente la etiqueta de la imagen (`#vista-previa`) para mostrar la nueva foto antes de enviar el formulario.
+
+### 9. Hacer llamadas con endpoints
+
+1. Crear el directorio api/ para pode hacer las consultas
+2. crear en js/ el script endpoints.js para poder usar fetch

@@ -1,12 +1,21 @@
-document.addEventListener("DOMContentLoaded", cargarArboles);
+document.addEventListener("DOMContentLoaded", () => {
+    if (document.getElementById('tabla-arboles')) {
+        cargarArboles();
+    }
+    
+    if (document.getElementById('form-crear')) {
+        cargarEstados();
+        crearArbol();
+    }
+});
 
+//GET
 function cargarArboles() {
-    // Hacemos la petición fetch al endpoint que creamos
     fetch('api/arboles.php')
-        .then(response => response.json()) // Convertimos la respuesta a objeto JS
+        .then(response => response.json())
         .then(data => {
             const tbody = document.getElementById('tabla-arboles');
-            tbody.innerHTML = ''; // Limpiamos la tabla por si acaso
+            tbody.innerHTML = '';
 
             if (data.error) {
                 console.error(data.error);
@@ -22,7 +31,6 @@ function cargarArboles() {
                     ? `<img src="${arbol.imagen}" alt="Miniatura" style="width: 80px; height: auto; border-radius: 4px;">`
                     : `<span>Sin imagen</span>`;
 
-                // Construimos las celdas usando Template Literals
                 tr.innerHTML = `
                     <td>${arbol.id}</td>
                     <td>${escaparHTML(arbol.especie)}</td>
@@ -40,6 +48,61 @@ function cargarArboles() {
             });
         })
         .catch(error => console.error("Error al obtener los datos:", error));
+}
+
+
+function cargarEstados() {
+    const selectEstado = document.getElementById("select-estado");
+    if (!selectEstado) return;
+
+    fetch("api/estados.php") 
+        .then(res => res.json())
+        .then(estados => {
+            if (estados.length > 0) {
+                estados.forEach(estado => {
+                    const option = document.createElement("option");
+                    option.value = estado;
+                    option.textContent = estado.charAt(0).toUpperCase() + estado.slice(1);
+                    selectEstado.appendChild(option);
+                });
+            } else {
+                selectEstado.innerHTML = "<option value=''>No se pudieron cargar los estados</option>";
+            }
+        })
+        .catch(err => {
+            console.error("Error cargando estados:", err);
+            selectEstado.innerHTML = "<option value=''>Error al conectar con la API</option>";
+        });
+}
+
+//POST
+function crearArbol() {
+    const formulario = document.getElementById("form-crear");
+    if (!formulario) return;
+
+    formulario.addEventListener("submit", function(e) {
+        e.preventDefault(); 
+
+        const formData = new FormData(this);
+
+        fetch('api/crear_arboles.php', {
+            method: 'POST',
+            body: formData 
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert(data.mensaje);
+                window.location.href = 'index.php'; 
+            } else {
+                alert("Error al crear: " + data.error);
+            }
+        })
+        .catch(error => {
+            console.error("Error en la petición de guardado:", error);
+            alert("Ocurrió un error en el servidor al intentar guardar.");
+        });
+    });
 }
 
 function escaparHTML(str) {
