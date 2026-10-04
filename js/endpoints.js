@@ -27,11 +27,9 @@ function cargarArboles() {
                 return;
             }
 
-            // Iteramos sobre cada árbol devuelto por la API
             data.forEach(arbol => {
                 const tr = document.createElement('tr');
 
-                // Validamos la imagen de forma similar a como lo hacías en PHP
                 const imagenHTML = arbol.tiene_imagen 
                     ? `<img src="${arbol.imagen}" alt="Miniatura" style="width: 80px; height: auto; border-radius: 4px;">`
                     : `<span>Sin imagen</span>`;
@@ -46,7 +44,7 @@ function cargarArboles() {
                     <td>${arbol.usuario_registro}</td>
                     <td>
                         <a href="editar.php?id=${arbol.id}">Editar</a>
-                        <a href="eliminar.php?id=${arbol.id}" onclick="return confirm('¿Eliminar este árbol?')">Eliminar</a>
+                        <a href="#" onclick="eliminarArbol(event, ${arbol.id})">Eliminar</a>
                     </td>
                 `;
                 tbody.appendChild(tr);
@@ -198,6 +196,35 @@ function editarArbol() {
             console.error("Error en la petición de actualización:", err);
             alert("Ocurrió un error en el servidor al guardar la edición.");
         });
+    });
+}
+
+//DELETE
+function eliminarArbol(event, id) {
+    event.preventDefault();
+
+    if (!confirm('¿Seguro que deseas eliminar este árbol?')) {
+        return;
+    }
+
+    fetch(`api/eliminar_arboles.php?id=${id}`, {
+        method: 'DELETE'
+    })
+    .then(res => {
+        if (!res.ok) throw new Error("Error en el servidor al intentar eliminar");
+        return res.json();
+    })
+    .then(data => {
+        if (data.success) {
+            alert(data.mensaje); 
+            cargarArboles();
+        } else {
+            alert("Error: " + data.error);
+        }
+    })
+    .catch(err => {
+        console.error("Error al eliminar:", err);
+        alert("Ocurrió un error en el servidor al procesar el borrado.");
     });
 }
 
