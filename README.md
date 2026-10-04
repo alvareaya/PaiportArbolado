@@ -503,3 +503,30 @@ Escucha cuando el usuario selecciona un nuevo archivo local, lo lee instantánea
 
 1. Crear el directorio api/ para pode hacer las consultas
 2. crear en js/ el script endpoints.js para poder usar fetch
+
+### 10. Parte usuario
+
+10.1 Crear tabla usuarios y introducirla en PaiportArbolado
+
+```sql
+USE PaiportArbolado;
+
+CREATE TABLE usuarios (
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	nombre VARCHAR(100) NOT NULL,
+	contrasena VARCHAR(255) NOT NULL,
+	fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+Introducir la tabla a la base de datos
+```bash
+mariadb -u user_bd -p PaiportArbolado < usuarios.sql
+```
+
+Insertar usuario
+```sql
+INSERT INTO usuarios (nombre, contrasena) VALUES ('alvaro','$2a$12$ZliSZiiNBRvPIif1KZe4/Ovqvre3pAlOJkgqQf/5Oichw5RpxkkoW');
+```
+
+Crear api/login.php para hacer la consultas , crear js/usuarios_endpoints.js para hacer las llamadas y login.php para poder loguearse.
