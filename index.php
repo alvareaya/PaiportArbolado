@@ -31,7 +31,7 @@ if (!isset($_SESSION['usuario_id'])) {
     <table border="1">
         <thead>
             <tr>
-                <th>ID</th>
+                <!--<th>ID</th>-->
                 <th>Especie</th>
                 <th>Ubicación</th>
                 <th>Fecha Plantación</th>

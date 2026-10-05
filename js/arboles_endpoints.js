@@ -33,9 +33,8 @@ function cargarArboles() {
                 const imagenHTML = arbol.tiene_imagen 
                     ? `<img src="${arbol.imagen}" alt="Miniatura" style="width: 80px; height: auto; border-radius: 4px;">`
                     : `<span>Sin imagen</span>`;
-
+                    //<td>${arbol.id}</td>
                 tr.innerHTML = `
-                    <td>${arbol.id}</td>
                     <td>${escaparHTML(arbol.especie)}</td>
                     <td>${escaparHTML(arbol.ubicacion)}</td>
                     <td>${arbol.fecha_plantacion}</td>
