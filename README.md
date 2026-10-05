@@ -530,3 +530,47 @@ INSERT INTO usuarios (nombre, contrasena) VALUES ('alvaro','$2a$12$ZliSZiiNBRvPI
 ```
 
 Crear api/login.php para hacer la consultas , crear js/usuarios_endpoints.js para hacer las llamadas y login.php para poder loguearse.
+
+### 11. DNS Local
+
+Ir a /etc/hosts en el equipo anfitrión y escribir al final:
+```shell
+127.0.0.1 arboles.paiporta.local
+```
+
+Abrir el navegador y escribir en la barra de busqueda **arboles.paiporta.local:8080** si todo ha salido bien tiene que aparecer la pagina por defecto de apache.
+
+Ahora hay que crear un fichero.conf para la configuracion de la web de la siguiente manera:
+```shell
+sudo nano /etc/apache2/sites-available/PaiportArbolado.conf
+```
+
+Y dentro escribir lo siguiente:
+
+```shell
+<VirtualHost *:80>
+    ServerName arboles.paiporta.local
+    ServerAlias www.arboles.paiporta.local
+    DocumentRoot /var/www/html/tu-carpeta-del-proyecto
+
+    <Directory /var/www/html/tu-carpeta-del-proyecto>
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+    ErrorLog ${APACHE_LOG_DIR}/arboles_error.log
+    CustomLog ${APACHE_LOG_DIR}/arboles_access.log combined
+</VirtualHost>
+
+```
+
+En el navegador escribir http://arboles.paiporta.local:8080/ y tiene que aparecer.
+
+Activar la nueva web y reiniciar apache;
+```shell
+sudo a2ensite PaiportArbolado.conf
+sudo a2dissite 000-default.conf
+sudo systemctl restart apache2
+```
+
