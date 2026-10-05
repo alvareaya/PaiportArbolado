@@ -46,5 +46,6 @@ if (!isset($_SESSION['usuario_id'])) {
     </table>
 
     <script src="js/arboles_endpoints.js"></script>
+    <script src="js/script.js"></script>
 </body>
 </html>
