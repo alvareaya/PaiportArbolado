@@ -5,6 +5,13 @@ error_reporting(E_ALL);
 
 require_once '../config.php';
 
+session_start();
+    
+if (!isset($_SESSION['usuario_id'])) {
+    header('Location: index.php');
+    exit;
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $id = intval($_GET['id'] ?? 0);
     
@@ -48,7 +55,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $ubicacion = $conn->real_escape_string($_POST['ubicacion'] ?? '');
     $fecha = $conn->real_escape_string($_POST['fecha_plantacion'] ?? '');
     $estado = $conn->real_escape_string($_POST['estado'] ?? '');
-    $usuario = $conn->real_escape_string($_POST['usuario'] ?? '');
+    //$usuario = $conn->real_escape_string($_POST['usuario'] ?? '');
+    $usuario = $_SESSION['usuario_nombre'];
     
     $ruta_imagen_bd = $arbol_actual['imagen']; 
 
@@ -66,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if (move_uploaded_file($_FILES['imagen']['tmp_name'], $fichero_subido)) {
 
-            $ruta_imagen_bd = "./arboles_paiporta/uploads/" . $nombre_final;
+            $ruta_imagen_bd = "../arboles_paiporta/uploads/" . $nombre_final;
         } else {
             echo json_encode(["success" => false, "error" => "Error al guardar la imagen en el servidor."]);
             exit;

@@ -3,6 +3,13 @@
     ini_set('display_errors', 0);
     error_reporting(E_ALL);
 
+    session_start();
+    
+    if (!isset($_SESSION['usuario_id'])) {
+        header('Location: index.php');
+        exit;
+    }
+
     require_once '../config.php';
 
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -14,7 +21,7 @@
     $ubicacion = $conn->real_escape_string($_POST['ubicacion'] ?? '');
     $fecha = $conn->real_escape_string($_POST['fecha_plantacion'] ?? '');
     $estado = $conn->real_escape_string($_POST['estado'] ?? '');
-    $usuario = $conn->real_escape_string($_POST['usuario'] ?? '');
+    $usuario = $_SESSION['usuario_nombre'];
 
     $ruta_db = "";
 
@@ -29,7 +36,7 @@
         $ruta_destino = $dir_destino . $nombre_archivo;
 
         if (move_uploaded_file($_FILES['imagen']['tmp_name'], $ruta_destino)) {
-            $ruta_db = $conn->real_escape_string("./arboles_paiporta/uploads/" . $nombre_archivo);
+            $ruta_db = $conn->real_escape_string("arboles_paiporta/uploads/" . $nombre_archivo);
         } else {
             echo json_encode(["success" => false, "error" => "Error al mover el archivo a la carpeta de destino."]);
             exit;
