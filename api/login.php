@@ -3,9 +3,10 @@
 header('Content-Type: application/json; charset=utf-8');
 ini_set('display_errors', 0); // Cambia a 1 si necesitas depurar y ver el error real
 error_reporting(E_ALL);
+ 
 
+require_once __DIR__ . '/../config.php';
 
-require_once '../config.php';
 session_start();
 
 
@@ -47,11 +48,16 @@ if ($usuario && password_verify($contrasena_ingresada, $usuario['contrasena'])) 
             'nombre' => $usuario['nombre']
         ]
     ]);
-    exit; // <--- IMPRESCINDIBLE: Corta el script aquí
+        $usuarioActivo = $_SESSION['usuario_nombre'] ?? 'Invitado';
+        registerAction("Usuario $usuarioActivo logueado con exito", $usuarioActivo);
+    exit; // Cortar el script aquí
 } else {
+    $usuarioActivo = $_SESSION['usuario_nombre'] ?? 'Invitado';
+    registerAction("Error al loguear $usuarioActivo", $usuarioActivo);
+
     http_response_code(401);
     echo json_encode(['error' => 'El usuario o la contraseña son incorrectos.']);
-    exit; // <--- Buenas prácticas para cerrar el flujo limpiamente
+    exit; // Buenas prácticas para cerrar el flujo limpiamente
 }
 
 

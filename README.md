@@ -574,3 +574,29 @@ sudo a2dissite 000-default.conf
 sudo systemctl restart apache2
 ```
 
+### 12 Hacer que los logs se registren en /logs/actions.log
+
+En el config.php hay lo siguiente:
+
+```php
+// Esto sirve para redirigir los logs a /logs/actions.log
+define('LOG_FILE', __DIR__ . '/logs/actions.log');
+
+// Function para registrar el log
+function registerAction($action, $user) {
+	$logEntry = date('[Y-m-d H\:i\:s]') . " - $user: $action\n";
+	file_put_contents(LOG_FILE, $logEntry, FILE_APPEND);
+}
+```
+
+En el .php que necesites tienes que añadir _____DIR______ .:
+```php
+require_once __DIR__ . '/../config.php';
+```
+
+Cuando se hacen las consultas se tiene que añadir las siguientes lineas al final para poder hacer el log.
+```php
+$usuarioActivo = $_SESSION['usuario_nombre'] ?? 'Invitado';
+registerAction("Aqui va el mensaje del log)", $usuarioActivo);
+```
+

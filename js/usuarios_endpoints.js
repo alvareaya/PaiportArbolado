@@ -1,6 +1,5 @@
 async function iniciarSesion(nombre, contrasena) {
     try {
-
         const response = await fetch('api/login.php', {
             method: 'POST',
             headers: {
@@ -9,13 +8,16 @@ async function iniciarSesion(nombre, contrasena) {
             body: JSON.stringify({ nombre: nombre, contrasena: contrasena })
         });
 
-        const data = await response.json();
-
+        // 1. Validar primero si la respuesta fue exitosa
         if (response.ok) {
+            const data = await response.json(); // Solo hacemos .json() si el servidor respondió bien
             alert("¡Bienvenido! Redirigiendo...");
             window.location.href = 'index.php'; 
         } else {
-            alert("Error: " + data.error);
+            // 2. Si hay un error (como el 500), leemos el error como texto para inspeccionarlo
+            const errorTexto = await response.text();
+            console.error("Detalle del error del servidor:", errorTexto);
+            alert(`Error en el servidor (${response.status}). Revisa la consola.`);
         }
 
     } catch (error) {
@@ -24,17 +26,14 @@ async function iniciarSesion(nombre, contrasena) {
     }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    const formulario = document.getElementById('form-login');
-    
-    if (formulario) {
-        formulario.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const nombre = document.getElementById('input-usuario').value;
-            const contrasena = document.getElementById('input-contrasena').value;
-            
-            await iniciarSesion(nombre, contrasena);
-        });
-    }
+document.getElementById('form-login').addEventListener('submit', function(event) {
+    // 1. Evita imperativamente que la página se recargue por defecto
+    event.preventDefault(); 
+
+    // 2. Captura los valores de los campos utilizando los IDs de tu HTML
+    const usuarioValue = document.getElementById('input-usuario').value;
+    const contrasenaValue = document.getElementById('input-contrasena').value;
+
+    // 3. Ejecuta tu función asíncrona pasándole los datos capturados
+    iniciarSesion(usuarioValue, contrasenaValue);
 });

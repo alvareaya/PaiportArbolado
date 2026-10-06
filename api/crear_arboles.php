@@ -58,5 +58,9 @@
         echo json_encode(["success" => false, "error" => "Error en la base de datos: " . $conn->error]);
     }
 
+    $usuarioActivo = $_SESSION['usuario_nombre'] ?? 'Invitado';
+    registerAction("Arbol $especie creado con exito", $usuarioActivo);
+
+
     $conn->close();
 ?>

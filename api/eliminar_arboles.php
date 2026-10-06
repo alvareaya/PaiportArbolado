@@ -5,6 +5,13 @@ error_reporting(E_ALL);
 
 require_once '../config.php';
 
+session_start();
+    
+if (!isset($_SESSION['usuario_id'])) {
+    header('Location: index.php');
+    exit;
+}
+
 if ($_SERVER['REQUEST_METHOD'] !== 'DELETE') {
     echo json_encode(["success" => false, "error" => "Método no permitido. Se requiere DELETE."]);
     exit;
@@ -30,6 +37,10 @@ if ($conn->query($sql)) {
 } else {
     echo json_encode(["success" => false, "error" => "Error al eliminar en la base de datos: " . $conn->error]);
 }
+
+$usuarioActivo = $_SESSION['usuario_nombre'] ?? 'Invitado';
+registerAction("Arbol eliminado con exito)", $usuarioActivo);
+
 
 $conn->close();
 exit;
