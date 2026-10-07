@@ -600,3 +600,52 @@ $usuarioActivo = $_SESSION['usuario_nombre'] ?? 'Invitado';
 registerAction("Aqui va el mensaje del log)", $usuarioActivo);
 ```
 
+### 13. Instalar y usar chart.js
+
+Instalar npm
+```shell
+sudo apt install npm
+```
+
+y después instalar chart.js
+```js
+npm install chart.js
+```
+
+copiar `chart.umd.js` desde ~/node_modules/chart.js/dist:
+
+```shell
+cp chart.umd.js /var/www/html/PaiportArbolado/js/
+```
+
+ahora en chart.php llamar a chart.js
+
+```php
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8">
+		<title>Panel de Estadísticas - Paiporta Arbolado</title>
+		<link rel="stylesheet" href="css/style.css">
+		<!-- 1. Cargar Chart.js desde la carpeta local js/ -->
+		<script src="js/chart.umd.js"></script>
+		<!-- 2. Se carga la logica de los endpoitns -->
+		<script src="js/arboles_endpoints.js" defer></script>
+		</head>
+		
+		<body>
+		<div style="width: 700px; margin: 50px auto; text-align: center;">
+			<h2>Estadísticas del Arbolado Urbano</h2>
+			<a href="index.php">Volver</a>
+			<!-- El canvas donde tu JS pintará los datos -->
+			<canvas id="graficaPHP"></canvas>
+		</div>
+
+  
+
+</body>
+
+</html>
+```
+
+
