@@ -8,30 +8,29 @@
 <body>
     <h1>Añadir Nuevo Árbol</h1>
     
+    <!-- Eliminamos los <br> ya que el CSS maneja los espaciados de forma limpia -->
     <form id="form-crear" enctype="multipart/form-data">
         <label>Especie:</label>
-        <input type="text" name="especie" required><br>
+        <input type="text" name="especie" placeholder="Ej. Olivo, Pino..." required>
 
         <label>Ubicación:</label>
-        <input type="text" name="ubicacion" required><br>
+        <input type="text" name="ubicacion" placeholder="Ej. Plaza Mayor, Calle Colón..." required>
 
         <label>Fecha de Plantación:</label>
-        <input type="date" name="fecha_plantacion" required><br>
+        <input type="date" name="fecha_plantacion" required>
 
         <label>Estado:</label>
         <select name="estado" id="select-estado" required>
             <option value="">-- Selecciona un estado --</option>
-        </select><br>
+        </select>
 
         <label>Añadir imagen:</label>
-        <input type="file" name="imagen" required><br>
+        <input type="file" name="imagen" accept="image/*" required>
 
-        <label>Usuario:</label>
-        <input type="text" name="usuario" required><br>
-
-        <button type="submit">Guardar</button>
+        <button type="submit">Guardar Árbol</button>
     </form>
-    <a href="index.php">Volver a la lista</a>
+    
+    <a href="index.php" class="btn-back">← Volver a la lista</a>
 
     <script src="js/arboles_endpoints.js"></script>
 </body>

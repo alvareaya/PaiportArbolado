@@ -5,9 +5,8 @@ if (!isset($_SESSION['usuario_id'])) {
     header('Location: login.php');
     exit;
 }
-
-
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -17,21 +16,26 @@ if (!isset($_SESSION['usuario_id'])) {
 </head>
 <body>
     
-    <header style="display: flex; justify-content: space-between; align-items: center;">
+    <!-- Eliminado el style en línea, ahora se controla 100% desde el CSS -->
+    <header>
         <h1>Gestión de Árboles de Paiporta</h1>
         <div>
-            <span>Bienvenido, <strong><?php echo htmlspecialchars($_SESSION['usuario_nombre']); ?></strong></span> | 
+            <span>Bienvenido, <strong><?php echo htmlspecialchars($_SESSION['usuario_nombre']); ?></strong></span>
+            <a href="chart.php">Ver gráfica</a>
             <a href="logout.php">Cerrar Sesión</a>
         </div>
     </header>
 
-    <a href="crear.php">Añadir nuevo árbol</a>
-    <input type="text" id="buscar" placeholder="Buscar por especie o ubicación..." onkeyup="buscarArboles()">
+    <!-- Agrupamos el botón y el buscador en una barra de acciones -->
+    <div class="actions-bar">
+        <a href="crear.php" class="btn-add">Añadir nuevo árbol</a>
+        <input type="text" id="buscar" placeholder="Buscar por especie, ubicación o estado..." onkeyup="buscarArboles()">
+    </div>
 
-    <table border="1">
+    <!-- Eliminado el border="1" para que el CSS maneje los bordes de manera limpia -->
+    <table>
         <thead>
             <tr>
-                <!--<th>ID</th>-->
                 <th>Especie</th>
                 <th>Ubicación</th>
                 <th>Fecha Plantación</th>
@@ -42,10 +46,12 @@ if (!isset($_SESSION['usuario_id'])) {
             </tr>
         </thead>
         <tbody id="tabla-arboles">
+            <!-- Recuerda que cuando inyectes dinámicamente los botones de acción desde tu JS, 
+                 puedes usar las clases 'btn-action btn-edit' y 'btn-action btn-delete' 
+                 para que adopten los estilos correctos -->
         </tbody>
     </table>
-
+    
     <script src="js/arboles_endpoints.js"></script>
-    <script src="js/script.js"></script>
 </body>
 </html>

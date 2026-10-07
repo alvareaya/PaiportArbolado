@@ -1,55 +1,401 @@
+/* ==========================================
+   RESET Y CONFIGURACIÓN GENERAL
+   ========================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
 body {
-    font-family: Arial, sans-serif;
-    margin: 20px;
-    background-color: #f4f4f9;
-}
-
-h1 {
+    background-color: #f4f7f6; /* Fondo gris claro muy limpio */
     color: #2c3e50;
+    padding: 24px;
+    line-height: 1.6;
 }
 
+/* ==========================================
+   HEADER / BARRA SUPERIOR
+   ========================================== */
+header {
+    background-color: #ffffff;
+    padding: 16px 24px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+header h1 {
+    font-size: 1.5rem;
+    color: #1e4620; /* Verde oscuro ecológico */
+    font-weight: 700;
+}
+
+header div {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Espacio entre elementos */
+}
+
+header span {
+    font-size: 0.95rem;
+    color: #555;
+}
+
+header a {
+    text-decoration: none;
+    font-size: 0.9rem;
+    padding: 8px 16px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+header a[href="chart.php"] {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    font-weight: 600;
+}
+
+header a[href="chart.php"]:hover {
+    background-color: #c8e6c9;
+}
+
+header a[href="logout.php"] {
+    background-color: #ffebee;
+    color: #c62828;
+}
+
+header a[href="logout.php"]:hover {
+    background-color: #ffcdd2;
+}
+
+.actions-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 20px;
+}
+
+/* Botón Añadir nuevo árbol */
+.btn-add {
+    display: inline-block;
+    background-color: #2e7d32; /* Verde bosque */
+    color: #ffffff;
+    text-decoration: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    box-shadow: 0 4px 6px rgba(46, 125, 50, 0.2);
+    transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.btn-add:hover {
+    background-color: #1b5e20;
+}
+
+.btn-add:active {
+    transform: scale(0.98);
+}
+
+/* Input de búsqueda */
+#buscar {
+    width: 100%;
+    max-width: 350px;
+    padding: 12px 16px;
+    border: 1.5px solid #ced4da;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    outline: none;
+    background-color: #ffffff;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#buscar:focus {
+    border-color: #2e7d32;
+    box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.15);
+}
+
+/* ==========================================
+   TABLA DE DATOS
+   ========================================== */
 table {
     width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
+    border-collapse: collapse; /* Quita los bordes dobles antiguos */
+    background-color: #ffffff;
+    border-radius: 12px;
+    overflow: hidden; /* Corta las esquinas rectas para que se vea el border-radius */
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
 }
 
 th, td {
-    padding: 10px;
+    padding: 16px;
     text-align: left;
-    border: 1px solid #ddd;
 }
 
 th {
-    background-color: #3498db;
-    color: white;
+    background-color: #f1f5f2; /* Fondo gris/verde muy suave para los títulos */
+    color: #3a5a40;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid #e2e8f0;
 }
 
-tr\:nth-child(even) {
-    background-color: #f2f2f2;
+td {
+    color: #4a5568;
+    font-size: 0.95rem;
+    border-bottom: 1px solid #edf2f7;
 }
 
-a {
+/* Filas alternas con un color ligeramente diferente para facilitar la lectura */
+tbody tr:nth-child(even) {
+    background-color: #f8faf9;
+}
+
+/* Efecto hover al pasar por encima de una fila */
+tbody tr:hover {
+    background-color: #f1f7f4;
+}
+
+/* Miniaturas de imágenes dentro de la tabla */
+table img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover; /* Evita que la imagen se deforme */
+    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+}
+
+/* Botones de acción dentro de la tabla (Editar / Eliminar) */
+.btn-action {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 0.85rem;
     text-decoration: none;
-    color: #3498db;
-    margin: 0 5px;
+    font-weight: 600;
+    margin-right: 5px;
 }
 
-input[type="text"], input[type="date"], select {
-    padding: 8px;
-    margin: 5px 0;
+.btn-edit {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+}
+
+.btn-delete {
+    background-color: #ffebee;
+    color: #b71c1c;
+}
+
+
+/* ==========================================
+   FORMULARIO DE CREACIÓN / EDICIÓN
+   ========================================== */
+
+/* Contenedor principal para el formulario (lo centramos sutilmente en la pantalla) */
+#form-crear {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+    max-width: 550px;
+    margin: 30px auto 20px auto; /* Centrado horizontal */
+}
+
+/* Título de la página de creación */
+body > h1 {
+    text-align: center;
+    color: #1e4620; /* Mismo verde que el header principal */
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-top: 20px;
+}
+
+/* Estilo para los bloques de campos (eliminamos los antiguos <br>) */
+#form-crear label {
+    display: block;
+    color: #5a738e;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    margin-top: 18px;
+}
+
+/* Estilo para el primer label del formulario para que no tenga margen de más arriba */
+#form-crear label:first-of-type {
+    margin-top: 0;
+}
+
+/* Estilos unificados para inputs de texto, fechas, select y archivos */
+#form-crear input[type="text"],
+#form-crear input[type="date"],
+#form-crear select {
     width: 100%;
-    max-width: 300px;
+    padding: 12px 16px;
+    border: 1.5px solid #ced4da;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    color: #2c3e50;
+    outline: none;
+    background-color: #ffffff;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-button {
-    padding: 10px 15px;
-    background-color: #2ecc71;
-    color: white;
-    border: none;
+/* Estilo específico y limpio para el input de tipo archivo (File) */
+#form-crear input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #f8faf9;
+    border: 1.5px dashed #ced4da; /* Borde punteado elegante para archivos */
+    border-radius: 8px;
     cursor: pointer;
 }
 
-button\:hover {
-    background-color: #27ae60;
+/* Efecto Focus (Enfoque) al interactuar con los campos */
+#form-crear input:focus,
+#form-crear select:focus {
+    border-color: #2e7d32;
+    box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.15);
+}
+
+/* Botón Guardar */
+#form-crear button[type="submit"] {
+    display: block;
+    width: 100%;
+    background-color: #2e7d32;
+    color: #ffffff;
+    border: none;
+    padding: 14px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 25px;
+    box-shadow: 0 4px 6px rgba(46, 125, 50, 0.2);
+    transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+#form-crear button[type="submit"]:hover {
+    background-color: #1b5e20;
+}
+
+#form-crear button[type="submit"]:active {
+    transform: scale(0.98);
+}
+
+.btn-back {
+    display: block;
+    text-align: center;
+    color: #5a738e;
+    text-decoration: none;
+    font-size: 0.95rem;
+    margin-top: 15px;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.btn-back:hover {
+    color: #2e7d32;
+    text-decoration: underline;
+}
+
+
+#form-editar {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+    max-width: 550px;
+    margin: 30px auto 20px auto;
+}
+
+#form-editar label {
+    display: block;
+    color: #5a738e;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    margin-top: 18px;
+}
+
+#form-editar label:first-of-type {
+    margin-top: 0;
+}
+
+#form-editar input[type="text"],
+#form-editar input[type="date"],
+#form-editar select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1.5px solid #ced4da;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    color: #2c3e50;
+    outline: none;
+    background-color: #ffffff;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#form-editar input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #f8faf9;
+    border: 1.5px dashed #ced4da;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+#form-editar input:focus,
+#form-editar select:focus {
+    border-color: #2e7d32;
+    box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.15);
+}
+
+#form-editar button[type="submit"] {
+    display: block;
+    width: 100%;
+    background-color: #2e7d32;
+    color: #ffffff;
+    border: none;
+    padding: 14px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 25px;
+    box-shadow: 0 4px 6px rgba(46, 125, 50, 0.2);
+    transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+#form-editar button[type="submit"]:hover {
+    background-color: #1b5e20;
+}
+
+/* Vista previa de la imagen actual */
+.img-mediana {
+    width: 100%;
+    max-width: 320px;
+    height: auto;
+    display: block;
+    margin: 12px 0;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+/* Texto alternativo cuando no hay imagen */
+.sin-imagen-texto {
+    color: #718096;
+    font-style: italic;
+    font-size: 0.9rem;
+    background-color: #edf2f7;
+    padding: 12px;
+    border-radius: 6px;
+    margin: 12px 0;
 }

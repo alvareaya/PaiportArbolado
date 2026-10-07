@@ -1,6 +1,5 @@
 <?php
 session_start();
-// Si quieres proteger la página también desde PHP antes de cargar el HTML:
 if (!isset($_SESSION['usuario_id'])) {
     header('Location: index.php');
     exit;
@@ -11,22 +10,54 @@ if (!isset($_SESSION['usuario_id'])) {
 <head>
     <meta charset="UTF-8">
     <title>Panel de Estadísticas - Paiporta Arbolado</title>
-    <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/style.css"> 
     
-    <!-- 1. Cargar Chart.js desde la carpeta local js/ -->
     <script src="js/chart.umd.js"></script>
-    
-    <!-- 2. Se carga la logica de los endpoitns -->
     <script src="js/arboles_endpoints.js" defer></script>
+    
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            text-align: center;
+        }
+        .chart-card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            margin-top: 20px;
+        }
+        .chart-container {
+            position: relative;
+            height: 350px; 
+            width: 100%;
+        }
+        .btn-volver {
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
 
-    <div style="width: 700px; margin: 50px auto; text-align: center;">
+    <div class="container">
         <h2>Estadísticas del Arbolado Urbano</h2>
-        <a href="index.php">Volver</a>
         
-        <!-- El canvas donde tu JS pintará los datos -->
-        <canvas id="graficaPHP"></canvas>
+        <div class="chart-card">
+            <h3 style="margin-top:0; color:#4a5568; font-weight: 600;">Distribución de Árboles por Especie</h3>
+            <div class="chart-container">
+                <canvas id="graficaPHP"></canvas>
+            </div>
+        </div>
+
+        <a href="index.php" class="btn-volver">Volver al inicio</a>
     </div>
 
 </body>

@@ -33,8 +33,8 @@
             <option value="">-- Selecciona un estado --</option>
         </select><br>
 
-        <label>Usuario:</label>
-        <input type="text" name="usuario" required><br>
+        <!--<label>Usuario:</label>
+        <input type="text" name="usuario" required><br>-->
 
         <label>Imagen del Árbol:</label><br>
         <img id="vista-previa" src="" alt="Imagen del árbol" class="img-mediana" style="display: none;">
@@ -45,7 +45,8 @@
 
         <button type="submit">Guardar Cambios</button>
     </form>
-    <a href="index.php">Volver a la lista</a>
+    
+    <a href="index.php" class="btn-back">← Volver a la lista</a>
 
     <script src="js/arboles_endpoints.js"></script>
 </body>

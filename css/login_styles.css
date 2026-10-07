@@ -1,0 +1,109 @@
+/* ==========================================
+   RESET Y CONFIGURACIÓN GENERAL
+   ========================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #e0eafc, #cfdef3);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center; /* Centrado horizontal */
+    align-items: center;     /* Centrado vertical */
+    padding: 20px;
+    margin: 0;
+}
+
+
+/* ==========================================
+   CONTENEDOR DEL LOGIN
+   ========================================== */
+.login-container {
+    background-color: #ffffff;
+    padding: 40px 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1); /* Sombra elegante */
+    width: 100%;
+    max-width: 400px; /* Evita que se estire demasiado en pantallas grandes */
+    transition: transform 0.3s ease;
+}
+
+.login-container:hover {
+    transform: translateY(-2px); /* Efecto sutil al pasar el mouse */
+}
+
+h2 {
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+/* ==========================================
+   FORMULARIO Y CAMPOS
+   ========================================== */
+.form-group {
+    margin-bottom: 24px; /* Mayor separación entre los campos */
+    display: flex;
+    flex-direction: column;
+}
+
+
+label {
+    color: #5a738e;
+    font-size: 0.9rem;
+    margin-bottom: 10px; /* Más espacio entre la etiqueta y su input */
+    font-weight: 500;
+}
+
+
+input {
+    padding: 12px 16px;
+    border: 1.5px solid #dbe2eb;
+    border-radius: 8px;
+    font-size: 1rem;
+    color: #333333;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Estado de enfoque (cuando el usuario hace clic en el input) */
+input:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.15);
+}
+
+/* Estilo para los placeholders */
+input::placeholder {
+    color: #a0aec0;
+}
+
+/* ==========================================
+   BOTÓN DE ACCESO
+   ========================================== */
+button[type="submit"] {
+    background-color: #3498db;
+    color: #ffffff;
+    border: none;
+    padding: 14px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 15px;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #2980b9; /* Color más oscuro al pasar el cursor */
+}
+
+button[type="submit"]:active {
+    transform: scale(0.98); /* Simula efecto de hundido al pulsar */
+}
